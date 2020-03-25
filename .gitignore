@@ -10,5 +10,16 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
+# Gradle generated files
+**/*.iml
+**/*.ipr
+**/*.iws
+
+# Pegasus generated files
+**/MainGeneratedRest/*
+**/MainGeneratedTemplate/*
+**/idl/*
+**/snapshot/*
+
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
