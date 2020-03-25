@@ -11,7 +11,6 @@ dependencies {
   compile project(path: ':api', configuration: 'dataTemplate')
   compile dependencySpec.pegasus.restliServer
   compile dependencySpec.pegasus.restliNettyStandalone
-  compile dependencySpec.scaladoc
 }
 
 task startFortunesServer(type: JavaExec) {

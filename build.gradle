@@ -12,7 +12,7 @@ project.ext.dependencyVersion = [
         'java'      : '1.8',
         'scala'     : [
                 'base': '2.12',
-                'full': '2.12.7'
+                'full': '2.12.10'
         ],
         'pegasus'   : '27.7.18',
         'postgres'  : '42.2.5',
@@ -63,7 +63,6 @@ subprojects {
         if (project.plugins.hasPlugin('scala')) {
             dependencies {
                 implementation dependencySpec.scala
-                implementation dependencySpec.scaladoc
             }
         }
     }
