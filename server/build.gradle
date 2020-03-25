@@ -1,0 +1,22 @@
+apply plugin: 'scala'
+apply plugin: 'pegasus'
+
+ext.apiProject = project(':api')
+
+pegasus.main.idlOptions.addIdlItem([
+        'com.example.fortune'
+])
+
+dependencies {
+  compile project(path: ':api', configuration: 'dataTemplate')
+  compile dependencySpec.pegasus.restliServer
+  compile dependencySpec.pegasus.restliNettyStandalone
+  compile dependencySpec.scaladoc
+}
+
+task startFortunesServer(type: JavaExec) {
+  main = 'com.linkedin.restli.server.NettyStandaloneLauncher'
+  args = ['-port', '8080', '-packages', 'com.example.fortune.impl']
+  classpath = sourceSets.main.runtimeClasspath
+  standardInput = System.in
+}

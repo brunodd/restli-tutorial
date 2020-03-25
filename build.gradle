@@ -1,0 +1,87 @@
+version '0.0.1'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.linkedin.pegasus:gradle-plugins:27.7.18'
+    }
+}
+project.ext.dependencyVersion = [
+        'java'      : '1.8',
+        'scala'     : [
+                'base': '2.12',
+                'full': '2.12.7'
+        ],
+        'pegasus'   : '27.7.18',
+        'postgres'  : '42.2.5',
+        'skinnyORM' : '3.0.3',
+        'slf4j'     : '1.7.29',
+        'pureConfig': '0.12.3'
+]
+project.ext.dependencySpec = [
+        'scala'    : "org.scala-lang:scala-library:${dependencyVersion.scala.full}",
+        'scaladoc' : "com.linkedin.sbt-restli:restli-tools-scala_${dependencyVersion.scala.base}:0.3.9",
+        'pegasus'  : [
+                'data' : 'com.linkedin.pegasus:data:' + dependencyVersion.pegasus,
+                'generator' : 'com.linkedin.pegasus:generator:' + dependencyVersion.pegasus,
+                'r2Netty' : 'com.linkedin.pegasus:r2-netty:' + dependencyVersion.pegasus,
+                'restliCommon' : 'com.linkedin.pegasus:restli-common:' + dependencyVersion.pegasus,
+                'restliClient' : 'com.linkedin.pegasus:restli-client:' + dependencyVersion.pegasus,
+                'restliServer' : 'com.linkedin.pegasus:restli-server:' + dependencyVersion.pegasus,
+                'restliTools' : 'com.linkedin.pegasus:restli-tools:' + dependencyVersion.pegasus,
+                'gradlePlugins' : 'com.linkedin.pegasus:gradle-plugins:' + dependencyVersion.pegasus,
+                'restliNettyStandalone' : 'com.linkedin.pegasus:restli-netty-standalone:' + dependencyVersion.pegasus,
+                'restliServerStandalone' : 'com.linkedin.pegasus:restli-server-standalone:' + dependencyVersion.pegasus,
+        ],
+        'postgres' : "org.postgresql:postgresql:${dependencyVersion.postgres}",
+        'skinnyORM': "org.skinny-framework:skinny-orm_${dependencyVersion.scala.base}:${dependencyVersion.skinnyORM}",
+        'slf4j'    : [
+                'api'  : "org.slf4j:slf4j-api:${dependencyVersion.slf4j}",
+                'log4j': "org.slf4j:slf4j-log4j12:${dependencyVersion.slf4j}"
+        ]
+]
+allprojects {
+    apply plugin: 'idea'
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+project.ext.enablePDL=true
+
+subprojects {
+    afterEvaluate {
+        if (project.plugins.hasPlugin('java')) {
+            sourceCompatibility = dependencyVersion.java
+            targetCompatibility = dependencyVersion.java
+        }
+    }
+    afterEvaluate {
+        if (project.plugins.hasPlugin('scala')) {
+            dependencies {
+                implementation dependencySpec.scala
+                implementation dependencySpec.scaladoc
+            }
+        }
+    }
+    afterEvaluate {
+        if (project.plugins.hasPlugin('pegasus')) {
+            dependencies {
+                dataTemplateCompile dependencySpec.pegasus.data
+                restClientCompile dependencySpec.pegasus.data
+                restClientCompile dependencySpec.pegasus.generator
+                restClientCompile dependencySpec.pegasus.r2Netty
+                restClientCompile dependencySpec.pegasus.restliCommon
+                restClientCompile dependencySpec.pegasus.restliClient
+                restClientCompile dependencySpec.pegasus.restliServer
+                restClientCompile dependencySpec.pegasus.restliTools
+                restClientCompile dependencySpec.pegasus.gradlePlugins
+                restClientCompile dependencySpec.pegasus.restliNettyStandalone
+                restClientCompile dependencySpec.pegasus.restliServerStandalone
+            }
+        }
+    }
+}

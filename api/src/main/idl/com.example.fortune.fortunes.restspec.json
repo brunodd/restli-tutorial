@@ -1,0 +1,21 @@
+{
+  "name" : "fortunes",
+  "namespace" : "com.example.fortune",
+  "path" : "/fortunes",
+  "schema" : "com.example.fortune.Fortune",
+  "doc" : "generated from: com.example.fortune.impl.FortunesResource",
+  "collection" : {
+    "identifier" : {
+      "name" : "fortunesId",
+      "type" : "long"
+    },
+    "supports" : [ "get" ],
+    "methods" : [ {
+      "method" : "get",
+      "doc" : "<p>A sample scala get.\n</p>"
+    } ],
+    "entity" : {
+      "path" : "/fortunes/{fortunesId}"
+    }
+  }
+}
